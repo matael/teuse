@@ -30,10 +30,14 @@ my @seen;
 push @seen, $nick;
 my $line;
 
+my @yops = qw(yop plop salutations! ahoy!);
+my @meh = ('gné ?', 'va chier !', 'may be...', 'et ta soeur !', 'le poulet, c\'est bon', 'thx !');
+
 my %actions = (
     #qr/[^<]*<([^>]*)>.*/ => sub { say $1},
 	qr/[^>]*$nick:? casse toi.*/ => sub { $in->close(); exit 0;},
-    qr/[^>]* *lol.*/ => sub { IRCsend('Yeah ! lol'); },
+    qr/[^>]*.*(yop|morning|ahoy|plop).*/ => sub { my $i = rand @yops; IRCsend($yops[$i]); },
+    qr/[^>]*[^$nick\s*:?].*$nick.*/ => sub { my $i = rand @yops; IRCsend($meh[$i]); },
 	qr/[^>]*$nick:?.* qui es tu.*/ => sub { IRCsend($msg_presentation);},
     qr/[^>]* \[Exo::([^\]]*)\].*/ => sub { IRCsend("Check http://exos.matael.org/?n=$1"); }
 );
