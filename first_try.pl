@@ -28,15 +28,17 @@ my @seen;
 push @seen, $nick;
 my $line;
 
+my %actions = (
+	qr/[^<]*<([^>]*)>.*/ => sub { say $1}
+);
+
+my @acts = keys %actions;
+
 while (1) {
     $line = $in->getline;
     if (defined $line) {
-        if ($line =~ m/[^<]*<([^>]*)>.*/){
-            say $1;
-            unless (grep {$_ eq $1} @seen) {
-                push @seen, $1;
-                voice($1);
-            }
+        if ($line =~ $acts[0]){
+            $actions{$acts[0]}->();
         }
         if ($line =~ m/[^>]*$nick:? casse toi.*/) {
             $in->close();
@@ -55,10 +57,3 @@ sub IRCsend {
     $out->print("$message\n");
     $out->close();
 }
-
-sub voice {
-    my ($the_nick) = @_;
-    my $message = "/mode $chan +v $the_nick";
-    IRCsend($message);
-}
-
