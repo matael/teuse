@@ -31,13 +31,23 @@ push @seen, $nick;
 my $line;
 
 my @yops = qw(yop plop salutations! ahoy!);
-my @meh = ('gné ?', 'va chier !', 'may be...', 'et ta soeur !', 'le poulet, c\'est bon', 'thx !');
+my @meh = ('gné ?', 'va chier !', 'may be...', 'et ta soeur !', "le poulet, c'est bon", 'thx !', 'youpi !', 'pelle');
+my $wp_api = MediaWiki::API->new();
+$wp_api->{config}->{api_url} = "http://fr.wikipedia.org/w/api.php";
 
 my %actions = (
     #qr/[^<]*<([^>]*)>.*/ => sub { say $1},
+    qr/[^<]*<([^>]*)>[^$nick\s?:?].*\s((la|le|une?)\s+[^\s]*)\S.*$/ => sub {
+        my $str = $2;
+        $str =~ s/une /la /;
+        $str =~ s/un /le /;
+        if (defined $1) { IRCsend("$1: c'est ta mère $str!"); }
+        else {IRCsend("c'est ta mère $str!");}
+    },
+    qr/[^>]*$nick\s?:?\s*à boire\s*!?$/ => sub { IRCsend(`python ./choix_boisson.py`);},
 	qr/[^>]*$nick:? casse toi.*/ => sub { $in->close(); exit 0;},
     qr/[^>]*.*(yop|morning|ahoy|plop).*/ => sub { my $i = rand @yops; IRCsend($yops[$i]); },
-    qr/[^>]*[^$nick\s*:?].*$nick.*/ => sub { my $i = rand @yops; IRCsend($meh[$i]); },
+    qr/[^>]*[^$nick\s*:?].*$nick.*/ => sub { my $i = rand @meh; IRCsend($meh[$i]); },
 	qr/[^>]*$nick:?.* qui es tu.*/ => sub { IRCsend($msg_presentation);},
     qr/[^>]* \[Exo::([^\]]*)\].*/ => sub { IRCsend("Check http://exos.matael.org/?n=$1"); }
 );
@@ -52,6 +62,7 @@ while (1) {
             }
         }
     }
+    sleep(2);
 }
 
 # subroutine to send msgs
