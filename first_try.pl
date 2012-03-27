@@ -7,6 +7,8 @@ use strict;
 use warnings;
 use 5.010;
 use IO::File;
+use MediaWiki::API;
+
 
 # Configuration
 my $irc_dir = '/home/matael/irc';
@@ -44,16 +46,21 @@ my %actions = (
         if (defined $1) { IRCsend("$1: c'est ta mère $str!"); }
         else {IRCsend("c'est ta mère $str!");}
     },
-    qr/[^>]*$nick\s?:?\s*à boire\s*!?$/ => sub { IRCsend(`python ./choix_boisson.py`);},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*à boire\s*!?$/ => sub { IRCsend($1." : ".`python ./choix_boisson.py`);},
+    qr/[^>]*$nick\s?:?\s*rot13 (.*)$/ => sub {
+        my $msg = $1;
+        $msg =~ s/\'/#/g;
+        $msg = `echo $msg| tr 'A-Za-z' 'N-ZA-Mn-za-m'`;
+        $msg =~ s/#/\'/g; IRCsend($msg);
+    },
 	qr/[^>]*$nick:? casse toi.*/ => sub { $in->close(); exit 0;},
     qr/[^>]*.*(yop|morning|ahoy|plop).*/ => sub { my $i = rand @yops; IRCsend($yops[$i]); },
-    qr/[^>]*[^$nick\s*:?].*$nick.*/ => sub { my $i = rand @meh; IRCsend($meh[$i]); },
+    qr/[^>]*[^$nick\s*:?][^(?à boire|rot13)]*$nick [^(?à boire|rot13)]*/ => sub { my $i = rand @meh; IRCsend($meh[$i]); },
 	qr/[^>]*$nick:?.* qui es tu.*/ => sub { IRCsend($msg_presentation);},
     qr/[^>]* \[Exo::([^\]]*)\].*/ => sub { IRCsend("Check http://exos.matael.org/?n=$1"); }
 );
 
-
-while (1) {
+while (1){
     $line = $in->getline;
     if (defined $line and !($line =~ m/<$nick>/)) {
         foreach my $reg (keys %actions) {
