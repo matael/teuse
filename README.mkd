@@ -1,0 +1,13 @@
+Teuse
+=====
+
+
+Simple crappy irc bot in perl.
+
+ii is used to connect the network.
+
+Note that the name of this bot comes from a stupid wordplay in french :
+
+> je m'appelle teuse
+
+... sorry.
