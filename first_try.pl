@@ -32,8 +32,19 @@ my @seen;
 push @seen, $nick;
 my $line;
 
-my @yops = qw(yop plop salutations! ahoy!);
-my @meh = ('gné ?', 'va chier !', 'may be...', 'et ta soeur !', "le poulet, c'est bon", 'thx !', 'youpi !', 'pelle');
+my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
+my @meh = (
+    'gné ?',
+    'va chier !',
+   'may be...',
+   'et ta soeur !',
+   "le poulet, c'est bon",
+   'thx !',
+   'youpi !',
+   'pelle',
+   'un chameau est un dromadaire presque partout'
+   );
+
 my $wp_api = MediaWiki::API->new();
 $wp_api->{config}->{api_url} = "http://fr.wikipedia.org/w/api.php";
 
@@ -46,7 +57,11 @@ my %actions = (
         if (defined $1) { IRCsend("$1: c'est ta mère $str!"); }
         else {IRCsend("c'est ta mère $str!");}
     },
-    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*à boire\s*!?$/ => sub { IRCsend($1." : ".`python ./choix_boisson.py`);},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*à?a? boire\s*!?$/ => sub { IRCsend($1." : ".`python ./plugins/choix_boisson.py`);},
+    #qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*retiens\s+(.*)$/ => sub { IRCsend(`python ./plugins/prog.py souvenir $1 $2`);},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*retiens\s+(.*)$/ => sub { IRCsend("python ./plugins/prog.py souvenir $1 $2");},
+    #qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*tell me more\s*$/ => sub { IRCsend(`python ./plugins/prog.py rappel $1`);},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*tell me more\s*$/ => sub { IRCsend("python ./plugins/prog.py rappel $1");},
     qr/[^>]*$nick\s?:?\s*rot13 (.*)$/ => sub {
         my $msg = $1;
         $msg =~ s/\'/#/g;
@@ -54,10 +69,15 @@ my %actions = (
         $msg =~ s/#/\'/g; IRCsend($msg);
     },
 	qr/[^>]*$nick:? casse toi.*/ => sub { $in->close(); exit 0;},
-    qr/[^>]*.*(yop|morning|ahoy|plop).*/ => sub { my $i = rand @yops; IRCsend($yops[$i]); },
-    qr/[^>]*[^$nick\s*:?][^(?à boire|rot13)]*$nick [^(?à boire|rot13)]*/ => sub { my $i = rand @meh; IRCsend($meh[$i]); },
+    qr/[^>]*.*(yop?|bouga|morning|ahoy|plop)\s.*/ => sub { my $i = rand @yops; IRCsend($yops[$i]); },
+    qr/[^>]*[^$nick\s*:?].*$nick.*/ => sub { my $i = rand @meh; IRCsend($meh[$i]); },
+#   qr/[^>]*[^$nick\s*:?][^(?à boire|rot13)]*$nick [^(?à boire|rot13)]*/ => sub { my $i = rand @meh; IRCsend($meh[$i]); },
 	qr/[^>]*$nick:?.* qui es tu.*/ => sub { IRCsend($msg_presentation);},
-    qr/[^>]* \[Exo::([^\]]*)\].*/ => sub { IRCsend("Check http://exos.matael.org/?n=$1"); }
+	qr/[^>]*.*cookie.*/ => sub { IRCsend('Owi ! \o/');},
+    qr/[^>]* \[Exo::([^\]]*)\].*/ => sub { IRCsend("Check http://exos.matael.org/?n=$1"); },
+    qr/[^>]*.*\[~([^\/]*)\/([^\]]*)\].*/ => sub { IRCsend("Check http://matael.org/~$1/$2"); },
+    qr/[^>]*.*pelle.*/ => sub { IRCsend("teuse");}
+
 );
 
 while (1){
