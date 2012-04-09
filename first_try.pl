@@ -16,7 +16,7 @@ my $host = 'irc.freenode.net';
 my $chan = '#spi2011';
 my $nick = 'teuse';
 
-my $msg_presentation = "Salut, je m'appelle teuse. En fait, je suis son petit frère, teuse est morte. Elle était en Python et je suis en Perl ;)";
+my $msg_presentation = "Salut, je m'appelle teuse. En fait, je suis sa petite soeur, teuse est morte. Elle était en Python et je suis en Perl ;)";
 
 my $path = "$irc_dir/$host/$chan";
 my $path_out = "$path/in"; 
