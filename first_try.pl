@@ -8,6 +8,7 @@ use warnings;
 use 5.010;
 use IO::File;
 use MediaWiki::API;
+use Text::Match::FastAlternatives;
 
 
 # Configuration
@@ -45,9 +46,20 @@ my @meh = (
    'un chameau est un dromadaire presque partout'
    );
 
-my $wp_api = MediaWiki::API->new();
-$wp_api->{config}->{api_url} = "http://fr.wikipedia.org/w/api.php";
+my @politics = (
+    'sarkozy',
+    'sarko',
+    'melenchon',
+    'hollande',
+    'aubry',
+    'réforme',
+    'poutou',
+    'npa',
+    'ump', # ps peut être utilisé pour post-scriptum
+    'bayrou'
+);
 
+my $politics_re = join "|", @politics;
 my %actions = (
     #qr/[^<]*<([^>]*)>.*/ => sub { say $1},
     qr/[^<]*<([^>]*)>[^$nick\s?:?].*\s((la|le|une?)\s+[^\s]*)\S.*$/ => sub {
@@ -57,11 +69,11 @@ my %actions = (
         if (defined $1) { IRCsend("$1: c'est ta mère $str!"); }
         else {IRCsend("c'est ta mère $str!");}
     },
+    $politics_re => sub { IRCsend(`python ./plugins/insulte.py`)},
     qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*à?a? boire\s*!?$/ => sub { IRCsend($1." : ".`python ./plugins/choix_boisson.py`);},
-    #qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*retiens\s+(.*)$/ => sub { IRCsend(`python ./plugins/prog.py souvenir $1 $2`);},
-    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*retiens\s+(.*)$/ => sub { IRCsend("python ./plugins/prog.py souvenir $1 $2");},
-    #qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*tell me more\s*$/ => sub { IRCsend(`python ./plugins/prog.py rappel $1`);},
-    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*tell me more\s*$/ => sub { IRCsend("python ./plugins/prog.py rappel $1");},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*retiens\s+(.*)$/ => sub { my $reponse = `./plugins/rappelPhrase.py souvenir $1 $2`; say $reponse; IRCsend($reponse);},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*(tell me more)\s*$/ => sub { IRCsend(" ".`python ./plugins/rappelPhrase.py rappel $1 $2`);},
+    qr/[^<]*<([^>]*)>\s*$nick\s?:?\s*(oublie tout)\s*$/ => sub { IRCsend(" ".`python ./plugins/rappelPhrase.py oublis $1 $2`);},
     qr/[^>]*$nick\s?:?\s*rot13 (.*)$/ => sub {
         my $msg = $1;
         $msg =~ s/\'/#/g;
