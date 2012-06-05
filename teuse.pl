@@ -10,6 +10,9 @@ use Bot::BasicBot;
 package Teuse;
 use base qw( Bot::BasicBot );
 
+# @yops
+my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
+my $master = "matael";
 
 sub said {
     my ($self, $a) = @_;
