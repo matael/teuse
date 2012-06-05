@@ -18,7 +18,7 @@ sub said {
     my ($self, $a) = @_;
 
     # offend if in PM
-    if ($a->{address} eq 'msg') {
+    if ($a->{address} and $a->{address} eq 'msg') {
        $self->say(
            who=>$a->{'who'},
            channel=>'msg', # answer privately
@@ -50,6 +50,14 @@ sub said {
 		$self->say(
 			channel => $a->{channel},
 			body => "Owi ! \\o/"
+		);
+	}
+	
+	# pastebin
+	elsif ($a->{body} =~ /.*paste\W.*/) {
+		$self->say(
+			channel => $a->{channel},
+			body => 'http://pastebin.archlinux.fr/'
 		);
 	}
 
