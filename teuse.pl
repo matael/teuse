@@ -24,6 +24,7 @@ sub said {
            channel=>'msg', # answer privately
            body=>"FUCK OFF ! Parle en public si t'es un homme"
        );
+	   return;
     }
 }
 
