@@ -29,8 +29,7 @@ sub said {
 
 sub emoted {
     my ($self, $a) = @_;
-
-    if ($a->{msg} =~ m/.*à|a soif.*/){
+    if ($a->{body} =~ /.*à|a soif.*/){
         $self->say(
             who=>$a->{who},
             channel => $a->{channel},
