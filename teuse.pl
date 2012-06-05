@@ -26,6 +26,51 @@ sub said {
        );
 	   return;
     }
+
+	# matael.org
+	if ($a->{body} =~ /.*\[~([^\/]*)\/([^\]]*)\].*/) {
+		$self->say(
+			channel => $a->{channel},
+			body => "Check http://matael.org/~$1/$2"
+		);
+	}
+
+	# yops
+	elsif ($a->{body} =~ /.*(yop?|bouga|morning|ahoy|plop).*/ ) {
+		my $i = rand @yops;
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => $yops[$i]
+		);
+	}
+
+	# cookie
+	elsif ($a->{body} =~ /.*cookie.*/) {
+		$self->say(
+			channel => $a->{channel},
+			body => "Owi ! \\o/"
+		);
+	}
+
+	#############################
+	# pelle teuse
+	if ($a->{body} =~ /[^>]*.*p+e+l{2,}e+\W*$/) {
+		$self->say(
+			channel => $a->{channel},
+			body => "teuse"
+		);
+	}
+
+	#############################
+	# quit
+	if ($a->{who} eq $master and $a->{body} eq "casse toi" and $a->{address}){
+	$self->say(
+	channel => $a->{channel},
+	body => "Oui Maitre..."
+	);
+	exit(0);
+   }
 }
 
 sub emoted {
