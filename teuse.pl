@@ -18,7 +18,7 @@ sub said {
     my ($self, $a) = @_;
 
     # offend if in PM
-    if ($a->{'address'} eq 'msg') {
+    if ($a->{address} eq 'msg') {
        $self->say(
            who=>$a->{'who'},
            channel=>'msg', # answer privately
