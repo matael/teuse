@@ -42,7 +42,8 @@ sub emoted {
 1;
 
 my $teuse = Teuse->new(
-    server => "irc.freenode.org",
-    channels => ["#spi2011"],
-    nick => 'teuse',
+	server => "irc.freenode.org",
+	channels => ["#spi2011"],
+	nick => 'teuse',
+	charset=> "utf-8"
 )->run();
