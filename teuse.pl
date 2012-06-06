@@ -95,7 +95,7 @@ sub said {
 			$self->say(
 				who => $a->{who},
 				channel => $a->{channel},
-				body => "Euh... je crois qu'y'a gourance là !"
+				body => "Euh... je crois qu'y a gourance !"
 			);
 		}
 	}
