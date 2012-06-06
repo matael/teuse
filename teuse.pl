@@ -82,6 +82,15 @@ sub said {
 				channel => $a->{channel},
 				body => "$res->{author} domine avec $votes votes pour avoir dit \"$res->{quote}\""
 			);
+		} elsif ($1 =~ /\W*last$/) {
+			# request to quotes.matael.org
+			my $res = JSON::from_json(LWP::Simple::get("http://quotes.matael.org/api/last"));
+			my $votes = $res->{vote_up}-$res->{vote_down};
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => "La derniere en date est de $res->{author} avec \"$res->{quote}\""
+			);
 		} else {
 			$self->say(
 				who => $a->{who},
