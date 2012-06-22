@@ -160,5 +160,6 @@ my $teuse = Teuse->new(
 	server => "irc.freenode.org",
 	channels => ["#spi2011"],
 	nick => 'teuse',
-	charset=> "utf-8"
+	charset=> "utf-8",
+	quit_message => "Oui maître..."
 )->run();
