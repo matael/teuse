@@ -6,6 +6,8 @@ use strict;
 use warnings;
 use 5.010;
 use Bot::BasicBot;
+use LWP::Simple;
+use JSON;
 
 package Teuse;
 use base qw( Bot::BasicBot );
@@ -66,6 +68,43 @@ sub said {
 			channel => $a->{channel},
 			body => 'http://pastebin.archlinux.fr/'
 		);
+	}
+
+	# quotes
+	elsif ($a->{body} =~ /^!quotes\s(.*)$/) {
+		if ($1 =~ /\W*random$/) {
+			# request to quotes.matael.org
+			my $res = JSON::from_json(LWP::Simple::get("http://quotes.matael.org/api/random"));
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => "$res->{author} dit un jour : \"$res->{quote}\""
+			);
+		} elsif ($1 =~ /\W*top$/) {
+			# request to quotes.matael.org
+			my $res = JSON::from_json(LWP::Simple::get("http://quotes.matael.org/api/top"));
+			my $votes = $res->{vote_up}-$res->{vote_down};
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => "$res->{author} domine avec $votes votes pour avoir dit \"$res->{quote}\""
+			);
+		} elsif ($1 =~ /\W*last$/) {
+			# request to quotes.matael.org
+			my $res = JSON::from_json(LWP::Simple::get("http://quotes.matael.org/api/last"));
+			my $votes = $res->{vote_up}-$res->{vote_down};
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => "La derniere en date est de $res->{author} avec \"$res->{quote}\""
+			);
+		} else {
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => "Euh... je crois qu'y a gourance !"
+			);
+		}
 	}
 
 	#############################
