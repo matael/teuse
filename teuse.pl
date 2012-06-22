@@ -36,7 +36,7 @@ sub said {
 	}
 
 	# yops
-	elsif ($a->{body} =~ /.*(yop?|bouga|morning|ahoy|plop).*/ ) {
+	elsif ($a->{body} =~ /.*(yop?\W|bouga|morning|a?hoy|plop).*/i ) {
 		my $i = rand @yops;
 		$self->say(
 			who => $a->{who},
