@@ -38,7 +38,7 @@ sub said {
 	}
 
 	# yops
-	elsif ($a->{body} =~ /.*(yop?|bouga|morning|ahoy|plop).*/ ) {
+	elsif ($a->{body} =~ /.*(yop?\W|bouga|morning|a?hoy|plop).*/i ) {
 		my $i = rand @yops;
 		$self->say(
 			who => $a->{who},
@@ -52,6 +52,13 @@ sub said {
 		$self->say(
 			channel => $a->{channel},
 			body => "Owi ! \\o/"
+		);
+	}
+
+	elsif ($a->{body} =~ m#((\\|/)o(\\|/))#) {
+		$self->say(
+			channel => $a->{channel},
+			body => $1
 		);
 	}
 	
