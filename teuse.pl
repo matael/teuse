@@ -56,7 +56,7 @@ sub said {
 	}
 	
 	# pastebin
-	elsif ($a->{body} =~ /.*paste\W.*/) {
+	elsif ($a->{body} =~ /.*past(er?|ai(s|t|ent)).*/) {
 		$self->say(
 			channel => $a->{channel},
 			body => 'http://pastebin.archlinux.fr/'
