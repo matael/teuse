@@ -16,8 +16,28 @@ use base qw( Bot::BasicBot );
 my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
 my $master = "matael";
 
+# Does teuse must answer to everything ?
+my $talk = 1;
+
 sub said {
     my ($self, $a) = @_;
+
+	if ($a->{who} eq $master and $a->{body} eq "!talk") {
+		if ($talk) {
+			$self->say(
+				channel=>$a->{channel},
+				body=>"ok ok... je me tais"
+			);
+			$talk = 0;
+		} else {
+			$self->say(
+				channel=>$a->{channel},
+				body=>"back to life !! \\o/"
+			);
+			$talk = 1;
+		}
+
+	}
 
     # offend if in PM
     if ($a->{address} and $a->{address} eq 'msg') {
@@ -38,7 +58,7 @@ sub said {
 	}
 
 	# yops
-	elsif ($a->{body} =~ /.*(yop?\W|bouga|morning|a?hoy|plop).*/i ) {
+	elsif ($talk and $a->{body} =~ /.*(yop?|bouga|morning|a?hoy|plop)(\W|$).*/i) {
 		my $i = rand @yops;
 		$self->say(
 			who => $a->{who},
@@ -48,14 +68,14 @@ sub said {
 	}
 
 	# cookie
-	elsif ($a->{body} =~ /.*cookie.*/) {
+	elsif ($talk and $a->{body} =~ /.*cookie.*/) {
 		$self->say(
 			channel => $a->{channel},
 			body => "Owi ! \\o/"
 		);
 	}
 
-	elsif ($a->{body} =~ m#((\\|/)o(\\|/))#) {
+	elsif ($talk and $a->{body} =~ m#((\\|/)o(\\|/))#) {
 		$self->say(
 			channel => $a->{channel},
 			body => $1
@@ -109,7 +129,7 @@ sub said {
 
 	#############################
 	# pelle teuse
-	if ($a->{body} =~ /[^>]*.*p+e+l{2,}e+\W*$/) {
+	if ($talk and $a->{body} =~ /[^>]*.*p+e+l{2,}e+\W*$/) {
 		$self->say(
 			channel => $a->{channel},
 			body => "teuse"
