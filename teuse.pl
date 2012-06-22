@@ -139,12 +139,8 @@ sub said {
 	#############################
 	# quit
 	if ($a->{who} eq $master and $a->{body} eq "casse toi" and $a->{address}){
-	$self->say(
-	channel => $a->{channel},
-	body => "Oui Maitre..."
-	);
-	exit(0);
-   }
+		$self->shutdown($self->quit_message());
+	}
 }
 
 sub emoted {
