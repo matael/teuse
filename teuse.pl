@@ -52,6 +52,13 @@ sub said {
 			body => "Owi ! \\o/"
 		);
 	}
+
+	elsif ($a->{body} =~ m#((\\|/)o(\\|/))#) {
+		$self->say(
+			channel => $a->{channel},
+			body => $1
+		);
+	}
 	
 	# pastebin
 	elsif ($a->{body} =~ /.*paste\W.*/) {
