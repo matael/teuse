@@ -7,6 +7,7 @@ use warnings;
 use 5.010;
 use Bot::BasicBot;
 use LWP::Simple;
+use LWP::UserAgent;
 use JSON;
 
 package Teuse;
@@ -126,6 +127,49 @@ sub said {
 			);
 		}
 	}
+	# links
+	elsif ($a->{body} =~ /^!link\s(.*)$/) {
+		 if ($1 =~ /([^\s]*)(\s.*)?$/) {
+			# request to links.matael.org
+			my $ua = LWP::UserAgent->new():
+			my $url = $1;
+			if ($2) {
+				my $title = $2;
+			} else {
+				my $title = $url;
+			}
+
+			my $response = $ua->post("http://links.matael.org",
+				[
+					url => $url,
+					title => $title,
+					poster => $a->{who}
+				]
+			);
+			if ($response->is_success) {
+				my $msg = "Grand succès !";
+			} else {
+				my $msg = "Arf... il semblerait que ça bloque ! $master ? Un coup de main ?";
+			}
+
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => $msg
+			);
+		} else {
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => "Normalement c'est comme ça :"
+			);
+			$self->say(
+				channel => $a->{channel},
+				body => "!link URL [titre]"
+			);
+		}
+	}
+	
 
 	#############################
 	# pelle teuse
