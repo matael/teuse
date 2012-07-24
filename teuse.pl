@@ -95,15 +95,23 @@ sub said {
 	elsif ($a->{body} =~ /!f+u+s+i+o+n+\W*/) {
 		$self->say(
 			channel => $a->{channel},
-			body => '.../o/........'
+			body => '.../o/.........'
 		);
 		$self->say(
 			channel => $a->{channel},
-			body => '...\o\........'
+			body => '............\o\\'
 		);
 		$self->say(
 			channel => $a->{channel},
-			body => '..../o/\o\....'
+			body => '../o/......\o\..'
+		);
+		$self->say(
+			channel => $a->{channel},
+			body => "FUUUUUUUSIIIIOOOOONNNNN !"
+		);
+		$self->say(
+			channel => $a->{channel},
+			body => '...../o/\o\.....'
 		);
 		$self->say(
 			channel => $a->{channel},
