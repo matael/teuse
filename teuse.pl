@@ -128,28 +128,26 @@ sub said {
 		}
 	}
 	# links
-	elsif ($a->{body} =~ /^!link\s(.*)$/) {
+	elsif ($a->{body} =~ /^!lk\s(.*)$/) {
 		 if ($1 =~ /([^\s]*)(\s.*)?$/) {
 			# request to links.matael.org
-			my $ua = LWP::UserAgent->new():
+			my $ua = LWP::UserAgent->new();
 			my $url = $1;
-			if ($2) {
-				my $title = $2;
-			} else {
-				my $title = $url;
-			}
+			my $title = $url;
+			$title = $2 if ($2);
 
-			my $response = $ua->post("http://links.matael.org",
+			my $response = $ua->post("http://links.matael.org/new",
 				[
 					url => $url,
 					title => $title,
 					poster => $a->{who}
 				]
 			);
-			if ($response->is_success) {
-				my $msg = "Grand succès !";
+			my $msg;
+			if ($response->is_error) {
+				$msg = "Arf... y'a un blem.... $master ? Un coup de main ?";
 			} else {
-				my $msg = "Arf... il semblerait que ça bloque ! $master ? Un coup de main ?";
+				$msg = "Yes !!";
 			}
 
 			$self->say(
