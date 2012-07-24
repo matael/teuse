@@ -123,7 +123,7 @@ sub said {
 			# request to links.matael.org
 			my $ua = LWP::UserAgent->new();
 			my $author = $1;
-			my $quote = $url;
+			my $quote = $2;
 
 			my $response = $ua->post("http://quotes.matael.org/",
 				[
