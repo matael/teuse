@@ -16,15 +16,17 @@ from random import choice
 liste_Insulte = [
     "t'es qu'une émission de carbone 14",
     "t'es tellement pas attractif que même tes électrons s'en vont",
-    "t'es tellement moche que les photons que tu réfléchi diminuent leur durée de vie",
+    "t'es tellement moche que les photons que tu réfléchis diminuent leur durée de vie",
     "t'es tellement pas drôle que même l'hydrogène ne te donne pas une voie éguë",
+    "t'es tellement lourd que tu dévies la lumière",
     "t'es aussi prévisible qu'une équation linéaire du premier ordre",
     "t'es tellement pas sécurisant que t'as tes attributs en public",
     "t'es connecté en socket avec ton propre cerveau pour réfléchir, sauf que vous n'utilisez pas le même protocole",
     "t'es aussi intuitif que la syntaxe polonaise inversée",
-    "t'es formaté en UTF-1"
-    "t'es aussi décourageant qu'un segmentation fault",
-    "t'es aussi chiant qu'un virus, sauf que lui il est codé en ASM"
+    "t'es formaté en UTF-0",
+    "t'es aussi décourageant qu'un segfault",
+    "t'es aussi chiant qu'un virus, sauf que lui il est codé en ASM",
+    "t'es panéliste pour INDECT",
 
     "t'as pas assez de neurones pour faire du multithread",
     "t'as redoublé ta crèche tellement t'es pas adapté à l'intelligence",
@@ -34,16 +36,17 @@ liste_Insulte = [
     "t'as raté le carrefour phylogénique qui sépare le singe de l'homme",
     "t'as jamais réussi à indenter ton code en Python",
     "t'as programmé en procédural avec java",
-    "t'as applaudit ACTA"
+    "t'as applaudi ACTA",
 
     "ton adressage mémoire s'arrête à 0xFF",
-    "ton adresse atitrée, c'est NULL",
+    "ton adresse attitrée, c'est NULL",
     "ton processeur a une datasheet de 2 lignes",
     "ton pc n'a jamais vu le terminal, ni même son émulateur",
     "ton pc tourne sous brainfuck OS",
 
-    "ta méthode parler() n'a pas d'argument"
-    "ta carte son ne sait faire que du bruit chiant"
+    "ta méthode parler() n'a pas d'argument",
+    "ta méthode reflexion() est de type void",
+    "ta carte son ne sait faire que du bruit blanc"
 ]
 
 
@@ -53,7 +56,8 @@ liste_suf_int = [
     "Tu savais ",
     "On t'as déjà dit ",
     "T'avais remarqué ",
-    "Tu te rendais compte "
+    "Tu te rendais compte ",
+    "Qui ne sais pas "
 ]
 
 # Liste des suffixes d'interpellation exclamatives
@@ -61,7 +65,9 @@ liste_suf_exc = [
     "Tout le monde sait ",
     "Il est démontré ",
     "Tu devrais te rappeler ",
-    "Oublis pas "
+    "Oublis pas ",
+    "Rappelles toi ",
+    "Souviens toi "
 ]
 
 # Liste des choix de mode d'insulte
