@@ -91,6 +91,26 @@ sub said {
 		);
 	}
 
+	# pastebin
+	elsif ($a->{body} =~ /!f+u+s+i+o+n+\W*/) {
+		$self->say(
+			channel => $a->{channel},
+			body => '.../o/........'
+		);
+		$self->say(
+			channel => $a->{channel},
+			body => '...\o\........'
+		);
+		$self->say(
+			channel => $a->{channel},
+			body => '..../o/\o\....'
+		);
+		$self->say(
+			channel => $a->{channel},
+			body => '*CRONK*'
+		);
+	}
+
 	# quotes
 	elsif ($a->{body} =~ /^!quotes\s(.*)$/) {
 		if ($1 =~ /\W*random$/) {
