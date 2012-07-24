@@ -119,6 +119,30 @@ sub said {
 				channel => $a->{channel},
 				body => "La derniere en date est de $res->{author} avec \"$res->{quote}\""
 			);
+		} elsif ($1 =~ /\W*add\s([^\s]*)\s(.*)$/) {
+			# request to links.matael.org
+			my $ua = LWP::UserAgent->new();
+			my $author = $1;
+			my $quote = $url;
+
+			my $response = $ua->post("http://quotes.matael.org/",
+				[
+					author => $author,
+					quote => $quote
+				]
+			);
+			my $msg;
+			if ($response->is_error) {
+				$msg = "Arf... y'a un blem.... $master ? Un coup de main ?";
+			} else {
+				$msg = "Yes !!";
+			}
+
+			$self->say(
+				who => $a->{who},
+				channel => $a->{channel},
+				body => $msg
+			);
 		} else {
 			$self->say(
 				who => $a->{who},
