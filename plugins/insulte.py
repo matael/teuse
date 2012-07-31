@@ -65,7 +65,7 @@ liste_suf_exc = [
     "Tout le monde sait ",
     "Il est démontré ",
     "Tu devrais te rappeler ",
-    "Oublis pas ",
+    "Oublie pas ",
     "Rappelles toi ",
     "Souviens toi "
 ]
