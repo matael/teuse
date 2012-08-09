@@ -33,7 +33,7 @@ my @seen;
 push @seen, $nick;
 my $line;
 
-my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
+my @yops = qw(yop plop bouga salutations ahoy enchantier salut salutations! ahoy! enchantier! salut!);
 my @meh = (
     'gné ?',
     'va chier !',
@@ -59,7 +59,8 @@ my @politics = (
     'bayrou',
     'eva joly',
     'nathalie arthaud',
-    'communiste'
+    'communiste',
+    'capitaliste'
 );
 
 my $politics_re = join "|", @politics;
