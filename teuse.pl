@@ -14,7 +14,18 @@ package Teuse;
 use base qw( Bot::BasicBot );
 
 # @yops
-my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
+my @yops = qw(
+	yop
+	plop
+	bouga
+	ahoy
+	salut
+	salutations!
+	ahoy!
+	enchantier!
+	salut!
+	salutations!
+	);
 my $master = "matael";
 
 # Does teuse must answer to everything ?
@@ -59,7 +70,7 @@ sub said {
 	}
 
 	# yops
-	elsif ($talk and $a->{body} =~ /.*(yop?|bouga|morning|a?hoy|plop)(\W|$).*/i) {
+	elsif ($talk and $a->{body} =~ /.*(yop?|bouga|salut|salutations?|morning|a?hoy|plop)(\W|$).*/i) {
 		my $i = rand @yops;
 		$self->say(
 			who => $a->{who},
