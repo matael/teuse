@@ -100,6 +100,16 @@ sub said {
 		);
 	}
 
+	# pong
+	elsif ($talk and $a->{body} =~ /^ping$/i) {
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => "pong",
+		);
+	}
+
+
 	# cookie
 	elsif ($talk and $a->{body} =~ /.*cookie.*/) {
 		$self->say(
