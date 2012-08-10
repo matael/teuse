@@ -26,6 +26,17 @@ my @yops = qw(
 	salut!
 	salutations!
 	);
+my @meh = (
+   'gné ?',
+   'va chier !',
+   'may be...',
+   'et ta soeur !',
+   "le poulet, c'est bon",
+   'thx !',
+   'youpi !',
+   'pelle',
+   'un chameau est un dromadaire presque partout'
+   );
 my $master = "matael";
 
 # Does teuse must answer to everything ?
@@ -76,6 +87,16 @@ sub said {
 			who => $a->{who},
 			channel => $a->{channel},
 			body => $yops[$i]
+		);
+	}
+
+	# meh
+	elsif ($talk and $a->{body} =~ /\Wteuse\W/i) {
+		my $i = rand @meh;
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => $meh[$i]
 		);
 	}
 
