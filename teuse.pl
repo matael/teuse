@@ -9,6 +9,7 @@ use Bot::BasicBot;
 use LWP::Simple;
 use LWP::UserAgent;
 use JSON;
+use Redis;
 
 package Teuse;
 use base qw( Bot::BasicBot );
@@ -16,6 +17,8 @@ use base qw( Bot::BasicBot );
 # @yops
 my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
 my $master = "matael";
+my $redis_db = 3;
+my $redis_prefix = "teuse:";
 
 # Does teuse must answer to everything ?
 my $talk = 1;
@@ -219,7 +222,21 @@ sub said {
 			);
 		}
 	}
-	
+	# }}}
+
+	# One above one (thx @halfr) {{{#{{{#}}}
+	elsif ($a->{body} =~ /(\+1)|(plus\sun\W*$)|(je\splussoie?t?s?)/) {
+		my $conn = Redis->new();
+		$conn->select($redis_db);
+		my $count = $conn->incr($redis_prefix.'one_above_one');
+		$conn->quit;
+		$self->say(
+			channel => $a->{channel},
+			body => $count
+		);
+	}
+	# }}}
+
 
 	#############################
 	# pelle teuse
