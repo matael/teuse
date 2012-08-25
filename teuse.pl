@@ -26,6 +26,7 @@ my $talk = 1;
 sub said {
     my ($self, $a) = @_;
 
+	# Talk or not ;) {{{
 	if ($a->{who} eq $master and $a->{body} eq "!talk") {
 		if ($talk) {
 			$self->say(
@@ -42,8 +43,9 @@ sub said {
 		}
 
 	}
+	# }}}
 
-    # offend if in PM
+    # offend if in PM {{{
     if ($a->{address} and $a->{address} eq 'msg') {
        $self->say(
            who=>$a->{'who'},
@@ -52,16 +54,18 @@ sub said {
        );
 	   return;
     }
+	# }}}
 
-	# matael.org
+	# matael.org {{{
 	if ($a->{body} =~ /.*\[~([^\/]*)\/([^\]]*)\].*/) {
 		$self->say(
 			channel => $a->{channel},
 			body => "Check http://matael.org/~$1/$2"
 		);
 	}
+	# }}}
 
-	# yops
+	# yops {{{
 	elsif ($talk and $a->{body} =~ /.*(yop?|bouga|morning|a?hoy|plop)(\W|$).*/i) {
 		my $i = rand @yops;
 		$self->say(
@@ -70,31 +74,36 @@ sub said {
 			body => $yops[$i]
 		);
 	}
+	# }}}
 
-	# cookie
+	# cookie {{{
 	elsif ($talk and $a->{body} =~ /.*cookie.*/) {
 		$self->say(
 			channel => $a->{channel},
 			body => "Owi ! \\o/"
 		);
 	}
+	# }}}
 
+	# \o/ {{{
 	elsif ($talk and $a->{body} =~ m#((\\|/)o(\\|/))#) {
 		$self->say(
 			channel => $a->{channel},
 			body => $1
 		);
 	}
-	
-	# pastebin
+	# }}}
+
+	# pastebin {{{
 	elsif ($a->{body} =~ /.*past(er?|ai(s|t|ent)).*/) {
 		$self->say(
 			channel => $a->{channel},
 			body => 'http://pastebin.archlinux.fr/'
 		);
 	}
+	# }}}
 
-	# pastebin
+	# fusion {{{
 	elsif ($a->{body} =~ /!f+u+s+i+o+n+\W*/) {
 		$self->say(
 			channel => $a->{channel},
@@ -121,8 +130,9 @@ sub said {
 			body => '*CRONK*'
 		);
 	}
+	# }}}
 
-	# quotes
+	# quotes {{{
 	elsif ($a->{body} =~ /^!quotes\s(.*)$/) {
 		if ($1 =~ /\W*random$/) {
 			# request to quotes.matael.org
@@ -178,11 +188,13 @@ sub said {
 			$self->say(
 				who => $a->{who},
 				channel => $a->{channel},
-				body => "Euh... je crois qu'y a gourance !"
+				body => `python pulgins/insulte.py`
 			);
 		}
 	}
-	# links
+	# }}}
+
+	# links {{{
 	elsif ($a->{body} =~ /^!lk\s(.*)$/) {
 		 if ($1 =~ /([^\s]*)(\s.*)?$/) {
 			# request to links.matael.org
@@ -239,19 +251,21 @@ sub said {
 
 
 	#############################
-	# pelle teuse
+	# pelle teuse {{{
 	if ($talk and $a->{body} =~ /[^>]*.*p+e+l{2,}e+\W*$/) {
 		$self->say(
 			channel => $a->{channel},
 			body => "teuse"
 		);
 	}
+	# }}}
 
 	#############################
-	# quit
+	# quit {{{
 	if ($a->{who} eq $master and $a->{body} eq "casse toi" and $a->{address}){
 		$self->shutdown($self->quit_message());
 	}
+	# }}}
 }
 
 sub emoted {
