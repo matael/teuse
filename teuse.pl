@@ -98,9 +98,7 @@ sub said {
 	}
 	# }}}
 
-	# cookie {{{
-=======
-	# meh
+	# meh {{{
 	elsif ($talk and $a->{body} =~ /\Wteuse\W/i) {
 		my $i = rand @meh;
 		$self->say(
@@ -109,8 +107,9 @@ sub said {
 			body => $meh[$i]
 		);
 	}
+	# }}}
 
-	# pong
+	# pong {{{
 	elsif ($talk and $a->{body} =~ /^ping$/i) {
 		$self->say(
 			who => $a->{who},
@@ -118,10 +117,10 @@ sub said {
 			body => "pong",
 		);
 	}
+	# }}}
 
 
-	# cookie
->>>>>>> bf3cd3e6a2ff71f9c0904db05d5a0e440c294455
+	# cookie {{{
 	elsif ($talk and $a->{body} =~ /.*cookie.*/) {
 		$self->say(
 			channel => $a->{channel},
@@ -233,11 +232,7 @@ sub said {
 			$self->say(
 				who => $a->{who},
 				channel => $a->{channel},
-<<<<<<< HEAD
-				body => `python pulgins/insulte.py`
-=======
 				body => `python plugins/insulte.py`
->>>>>>> bf3cd3e6a2ff71f9c0904db05d5a0e440c294455
 			);
 		}
 	}
