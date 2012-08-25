@@ -15,7 +15,29 @@ package Teuse;
 use base qw( Bot::BasicBot );
 
 # @yops
-my @yops = qw(yop plop bouga salutations! ahoy! enchantier!);
+my @yops = qw(
+	yop
+	plop
+	bouga
+	ahoy
+	salut
+	salutations!
+	ahoy!
+	enchantier!
+	salut!
+	salutations!
+	);
+my @meh = (
+   'gné ?',
+   'va chier !',
+   'may be...',
+   'et ta soeur !',
+   "le poulet, c'est bon",
+   'thx !',
+   'youpi !',
+   'pelle',
+   'un chameau est un dromadaire presque partout'
+   );
 my $master = "matael";
 my $redis_db = 3;
 my $redis_prefix = "teuse:";
@@ -66,7 +88,7 @@ sub said {
 	# }}}
 
 	# yops {{{
-	elsif ($talk and $a->{body} =~ /.*(yop?|bouga|morning|a?hoy|plop)(\W|$).*/i) {
+	elsif ($talk and $a->{body} =~ /.*(yop?|bouga|salut|salutations?|morning|a?hoy|plop)(\W|$).*/i) {
 		my $i = rand @yops;
 		$self->say(
 			who => $a->{who},
@@ -77,6 +99,29 @@ sub said {
 	# }}}
 
 	# cookie {{{
+=======
+	# meh
+	elsif ($talk and $a->{body} =~ /\Wteuse\W/i) {
+		my $i = rand @meh;
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => $meh[$i]
+		);
+	}
+
+	# pong
+	elsif ($talk and $a->{body} =~ /^ping$/i) {
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => "pong",
+		);
+	}
+
+
+	# cookie
+>>>>>>> bf3cd3e6a2ff71f9c0904db05d5a0e440c294455
 	elsif ($talk and $a->{body} =~ /.*cookie.*/) {
 		$self->say(
 			channel => $a->{channel},
@@ -107,7 +152,7 @@ sub said {
 	elsif ($a->{body} =~ /!f+u+s+i+o+n+\W*/) {
 		$self->say(
 			channel => $a->{channel},
-			body => '.../o/.........'
+			body => '/o/............'
 		);
 		$self->say(
 			channel => $a->{channel},
@@ -188,7 +233,11 @@ sub said {
 			$self->say(
 				who => $a->{who},
 				channel => $a->{channel},
+<<<<<<< HEAD
 				body => `python pulgins/insulte.py`
+=======
+				body => `python plugins/insulte.py`
+>>>>>>> bf3cd3e6a2ff71f9c0904db05d5a0e440c294455
 			);
 		}
 	}
