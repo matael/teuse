@@ -177,7 +177,7 @@ sub said {
 	# }}}
 
 	# quotes {{{
-	elsif ($a->{body} =~ /^!quotes\s(.*)$/) {
+	elsif ($a->{body} =~ /^!quotes\s+(.*)$/) {
 		if ($1 =~ /\W*random$/) {
 			# request to quotes.matael.org
 			my $res = JSON::from_json(LWP::Simple::get("http://quotes.matael.org/api/random"));
@@ -239,7 +239,7 @@ sub said {
 	# }}}
 
 	# links {{{
-	elsif ($a->{body} =~ /^!lk\s(.*)$/) {
+	elsif ($a->{body} =~ /^!lk\s+(.*)$/) {
 		 if ($1 =~ /([^\s]*)(\s.*)?$/) {
 			# request to links.matael.org
 			my $ua = LWP::UserAgent->new();
@@ -281,7 +281,7 @@ sub said {
 	# }}}
 
 	# One above one (thx @halfr) {{{#{{{#}}}
-	elsif ($a->{body} =~ /(\+1)|(plus\sun\W*$)|(je\splussoie?t?s?)/) {
+	elsif ($talk and $a->{body} =~ /(\+1)|(plus\sun\W*$)|(je\splussoie?t?s?)/) {
 		my $conn = Redis->new();
 		$conn->select($redis_db);
 		my $count = $conn->incr($redis_prefix.'one_above_one');
@@ -306,7 +306,7 @@ sub said {
 
 	#############################
 	# quit {{{
-	if ($a->{who} eq $master and $a->{body} eq "casse toi" and $a->{address}){
+	if ($a->{who} eq $master and ($a->{body} eq "casse toi" or $a->{body} eq "dehors !") and $a->{address}){
 		$self->shutdown($self->quit_message());
 	}
 	# }}}
