@@ -28,8 +28,8 @@ my @yops = qw(
 	salutations!
 	);
 my @meh = (
-   'gné ?',
    'va chier !',
+   'gné ?',
    'may be...',
    'et ta soeur !',
    "le poulet, c'est bon",
@@ -111,6 +111,7 @@ sub said {
 
 	# pong {{{
 	elsif ($talk and $a->{body} =~ /^ping$/i) {
+		$self->auto_kick($a->{who}, $a->{channel});
 		$self->say(
 			who => $a->{who},
 			channel => $a->{channel},
@@ -122,6 +123,7 @@ sub said {
 
 	# cookie {{{
 	elsif ($talk and $a->{body} =~ /.*cookie.*/) {
+		$self->auto_kick($a->{who}, $a->{channel});
 		$self->say(
 			channel => $a->{channel},
 			body => "Owi ! \\o/"
@@ -131,6 +133,7 @@ sub said {
 
 	# \o/ {{{
 	elsif ($talk and $a->{body} =~ m#((\\|/)o(\\|/))#) {
+		$self->auto_kick($a->{who}, $a->{channel});
 		$self->say(
 			channel => $a->{channel},
 			body => $1
@@ -149,6 +152,7 @@ sub said {
 
 	# fusion {{{
 	elsif ($a->{body} =~ /!f+u+s+i+o+n+\W*/) {
+		$self->auto_kick($a->{who}, $a->{channel});
 		$self->say(
 			channel => $a->{channel},
 			body => '/o/............'
@@ -282,6 +286,7 @@ sub said {
 
 	# One above one (thx @halfr) {{{#{{{#}}}
 	elsif ($talk and $a->{body} =~ /(\+1)|(plus\sun\W*$)|(je\splussoie?t?s?)/) {
+		$self->auto_kick($a->{who}, $a->{channel});
 		my $conn = Redis->new();
 		$conn->select($redis_db);
 		my $count = $conn->incr($redis_prefix.'one_above_one');
@@ -321,6 +326,22 @@ sub emoted {
             body=>`python ./plugins/choix_boisson.py`
         );
     }
+}
+
+sub auto_kick {
+	my ($self, $target_nick, $channel) = @_;
+
+	my $conn = Redis->new();
+	$conn->select($redis_db);
+	if (!$conn->get($redis_prefix.$target_nick)) {
+		$conn->setex($redis_prefix.$target_nick, 180, 0);
+	}
+	my $count = $conn->incr($redis_prefix.$target_nick);
+	if (int($count) > 10) {
+		$self->kick($channel, $target_nick, 'ET VLAN !');
+		$conn->del($redis_prefix.$target_nick);
+	}
+
 }
 
 1;
