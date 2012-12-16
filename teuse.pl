@@ -331,17 +331,19 @@ sub emoted {
 sub auto_kick {
 	my ($self, $target_nick, $channel) = @_;
 
-	my $conn = Redis->new();
-	$conn->select($redis_db);
-	if (!$conn->get($redis_prefix.$target_nick)) {
-		$conn->setex($redis_prefix.$target_nick, 180, 0);
-	}
-	my $count = $conn->incr($redis_prefix.$target_nick);
-	if (int($count) > 10) {
-		$self->kick($channel, $target_nick, 'ET VLAN !');
-		$conn->del($redis_prefix.$target_nick);
-	}
+	if ($target_nick ne $master) {
 
+		my $conn = Redis->new();
+		$conn->select($redis_db);
+		if (!$conn->get($redis_prefix.$target_nick)) {
+			$conn->setex($redis_prefix.$target_nick, 180, 0);
+		}
+		my $count = $conn->incr($redis_prefix.$target_nick);
+		if (int($count) > 5+int(rand(7))) {
+			$self->kick($channel, $target_nick, 'ET VLAN !');
+			$conn->del($redis_prefix.$target_nick);
+		}
+	}
 }
 
 1;
