@@ -270,6 +270,28 @@ sub said {
 				channel => $a->{channel},
 				body => $msg
 			);
+		elsif ($1 =~ /([^\s]*)\s*$/) {
+			if ($1 eq 'random') {
+				my $lk = LWP::Simple::get("http://links.matael.org/api/random");
+				$self->say(
+					who => $a->{who},
+					channel => $a->{channel},
+					body => $lk
+				);
+			} elsif ($1 eq 'last') {
+				my $lk = LWP::Simple::get("http://links.matael.org/api/api");
+				$self->say(
+					who => $a->{who},
+					channel => $a->{channel},
+					body => $lk
+				);
+			} else {
+				$self->say(
+					who => $a->{who},
+					channel => $a->{channel},
+					body => "Désolé, ça ne me dit rien."
+				);
+			}
 		} else {
 			$self->say(
 				who => $a->{who},
@@ -279,6 +301,10 @@ sub said {
 			$self->say(
 				channel => $a->{channel},
 				body => "!link URL [titre]"
+			);
+			$self->say(
+				channel => $a->{channel},
+				body => "pour la liste des liens : http://links.matael.org"
 			);
 		}
 	}
