@@ -122,7 +122,7 @@ sub said {
 
     #re {{{
 	# Une condition pour repondre re a un utilisateur. A condition to answer 're' to an user
-    elsif($talk and $a->{body} =~ /\Wre\W/i) {
+    elsif($talk and $a->{body} =~ /re( btw)?( !)?$/i) {
 		$self->say(
 			who => $a->{who},
 			channel => $a->{channel},
