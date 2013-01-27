@@ -117,7 +117,8 @@ sub said {
 	}
 	# }}}
 
-    #re{{  Une condition pour repondre re a un utilisateur. A condition to answer 're' to an user
+    #re {{{
+	# Une condition pour repondre re a un utilisateur. A condition to answer 're' to an user
     elsif($talk and $a->{body} =~ /\Wre\W/i) {
 		$self->say(
 			who => $a->{who},
@@ -125,9 +126,10 @@ sub said {
 			body => "re",
 		);
     }
-    #}}
+    # }}}
 
-    # Soir{{ Une condition pour dire bonne nuit. A condition to wish 'good night/good evening'
+    # Soir {{{
+ 	# Une condition pour dire bonne nuit. A condition to wish 'good night/good evening'
     elsif($talk and $a->{body} =~ /.*(bonsoir|'ne nuit|bonne nuit).*/i) {
         my $i = rand @nuit;
 		$self->say(
@@ -136,7 +138,8 @@ sub said {
 			body => $nuit[$i]
 		);
     }
- 
+	# }}}
+
 	# pong {{{
 	elsif ($talk and $a->{body} =~ /^ping$/i) {
 		$self->auto_kick($a->{who}, $a->{channel});
