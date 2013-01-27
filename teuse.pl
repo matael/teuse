@@ -21,7 +21,6 @@ my @yops = qw(
 	bouga
 	ahoy
 	salut
-	salutations!
 	ahoy!
 	enchantier!
 	salut!
@@ -38,6 +37,15 @@ my @meh = (
    'pelle',
    'un chameau est un dromadaire presque partout'
    );
+
+#variable pour dire bonne nuit quand un utilisateur s'en va. Variable to wish good night when an user quit
+my @nuit = (
+    'Bonsoir!',
+    'bonsoir',
+    'Bonne nuit!',
+    '\'ne nuit!'
+    );
+
 my $master = "matael";
 my $redis_db = 3;
 my $redis_prefix = "teuse:";
@@ -109,6 +117,26 @@ sub said {
 	}
 	# }}}
 
+    #re{{  Une condition pour repondre re a un utilisateur. A condition to answer 're' to an user
+    elsif($talk and $a->{body} =~ /\Wre\W/i) {
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => "re",
+		);
+    }
+    #}}
+
+    # Soir{{ Une condition pour dire bonne nuit. A condition to wish 'good night/good evening'
+    elsif($talk and $a->{body} =~ /.*(bonsoir|'ne nuit|bonne nuit).*/i) {
+        my $i = rand @nuit;
+		$self->say(
+			who => $a->{who},
+			channel => $a->{channel},
+			body => $nuit[$i]
+		);
+    }
+ 
 	# pong {{{
 	elsif ($talk and $a->{body} =~ /^ping$/i) {
 		$self->auto_kick($a->{who}, $a->{channel});
