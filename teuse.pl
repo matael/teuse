@@ -298,6 +298,7 @@ sub said {
 				channel => $a->{channel},
 				body => $msg
 			);
+		}
 		elsif ($1 =~ /([^\s]*)\s*$/) {
 			if ($1 eq 'random') {
 				my $lk = LWP::Simple::get("http://links.matael.org/api/random");
