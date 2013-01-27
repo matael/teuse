@@ -43,7 +43,10 @@ my @nuit = (
     'Bonsoir!',
     'bonsoir',
     'Bonne nuit!',
-    '\'ne nuit!'
+    '\'ne nuit!',
+	'nenuit',
+	'++',
+	'jour++;',
     );
 
 my $master = "matael";
@@ -130,7 +133,7 @@ sub said {
 
     # Soir {{{
  	# Une condition pour dire bonne nuit. A condition to wish 'good night/good evening'
-    elsif($talk and $a->{body} =~ /.*(bonsoir|'ne nuit|bonne nuit).*/i) {
+    elsif($talk and $a->{body} =~ /.*(bonsoir|'?ne ?nuit|bonne nuit|neuhnuit).*/i) {
         my $i = rand @nuit;
 		$self->say(
 			who => $a->{who},
